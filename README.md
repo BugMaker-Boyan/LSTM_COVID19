@@ -19,6 +19,8 @@ parser.add_argument('--test_size', type=float, default=0.2,
                     help='the test size between (0, 1) to split the data source')
 parser.add_argument('--log_dir', default='./log/',
                     help='the log dir of tensorboard')
+parser.add_argument('--inverse', action='store_true',
+                    help='whether to inverse data in prediction')
 
 parser.add_argument('--input_dim', type=int, default=1,
                     help='the input dim of the model')
