@@ -48,3 +48,29 @@ Model input: (batch, seq_len-1, input_dim)
 
 Model output: (batch, output_dim)
 
+#### Train
+
+```bash
+python main.py 
+--data_name covid19 
+--data_path data/covid19.csv 
+--target acc_confirm 
+--use_gpu
+```
+
+To see the loss curve:
+
+```bash
+tensorboard --logdir=./log     
+```
+
+#### Prediction and plot
+
+```bash
+python prediction_plot.py 
+--data_name covid19
+--data_path ../data/covid19.csv
+--target acc_confirm
+--checkpoints ../checkpoints/
+```
+
