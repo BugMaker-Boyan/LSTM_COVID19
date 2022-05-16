@@ -36,3 +36,7 @@ class COVIDDataset(Dataset):
     def __len__(self):
         return self.y.shape[0]
 
+    def inverse(self, x):
+        return self.scaler.inverse_transform(x)
+
+
