@@ -42,7 +42,7 @@ parser.add_argument('--use_gpu', action='store_true',
 
 #### Model Graph
 
-![image-20220517012440924](README.assets/image-20220517012440924.png)
+<img src="README.assets/image-20220517012440924.png" alt="image-20220517012440924" style="zoom: 50%;" />
 
 Model input: (batch, seq_len-1, input_dim)
 
