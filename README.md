@@ -1,7 +1,8 @@
-import argparse
+# LSTM Covid-19 Prediction Project
 
-parser = argparse.ArgumentParser(description='COVID19 LSTM Prediction Model')
+#### Arguments Info
 
+```python
 parser.add_argument('--data_name', type=str, required=True,
                     help='the data source name')
 parser.add_argument('--data_path', type=str, required=True,
@@ -37,4 +38,13 @@ parser.add_argument('--batch_size', type=int, default=8,
 
 parser.add_argument('--use_gpu', action='store_true',
                     help='whether to use gpu')
+```
+
+#### Model Graph
+
+![image-20220517012440924](README.assets/image-20220517012440924.png)
+
+Model input: (batch, seq_len-1, input_dim)
+
+Model output: (batch, output_dim)
 
