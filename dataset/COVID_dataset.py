@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import torch
 from torch.utils.data import Dataset
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 
 
 class COVIDDataset(Dataset):
@@ -10,9 +10,8 @@ class COVIDDataset(Dataset):
         super(COVIDDataset, self).__init__()
         _data = pd.read_csv(args.data_path)
         _data = _data.sort_values(args.date_column)
-        _data = _data[args.target].values.reshape(-1, 1)
-        self.scaler = MinMaxScaler(feature_range=(0, 1))
-        _data = self.scaler.fit_transform(_data).squeeze()
+        _data = _data[args.target].values
+        self.args = args
 
         self.data = []
         for index in range(len(_data) - args.seq_len):
@@ -22,21 +21,27 @@ class COVIDDataset(Dataset):
         _test_set_size = int(np.round(args.test_size * self.data.shape[0]))
         _train_set_size = self.data.shape[0] - _test_set_size
 
+        self.scaler = StandardScaler()
+        self.scaler.fit(_data[:_train_set_size + args.seq_len - 2].reshape(-1, 1))
+
         if not test:
-            self.x = self.data[:_train_set_size, :-1, np.newaxis]
-            self.y = self.data[:_train_set_size, -1, np.newaxis]
+            self.x = self.data[:_train_set_size, :-1]
+            self.y = self.data[:_train_set_size, -1]
         else:
-            self.x = self.data[_train_set_size:, :-1, np.newaxis]
-            self.y = self.data[_train_set_size:, -1, np.newaxis]
+            self.x = self.data[_train_set_size:, :-1]
+            self.y = self.data[_train_set_size:, -1]
 
     def __getitem__(self, item):
-        return torch.tensor(self.x[item, :, :], dtype=torch.float), \
-               torch.tensor(self.y[item, :], dtype=torch.float)
+        x = self.scaler.transform(self.x[item, :].reshape(-1, 1))
+        if self.args.inverse:
+            y = np.expand_dims(np.array(self.y[item]), axis=0)
+        else:
+            y = self.scaler.transform(np.expand_dims(np.array(self.y[item]), axis=0).reshape(-1, 1)).squeeze(axis=0)
+
+        return torch.tensor(x, dtype=torch.float), torch.tensor(y, dtype=torch.float)
 
     def __len__(self):
         return self.y.shape[0]
 
     def inverse(self, x):
         return self.scaler.inverse_transform(x)
-
-

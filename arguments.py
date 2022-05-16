@@ -32,7 +32,7 @@ parser.add_argument('--output_dim', type=int, default=1,
 
 parser.add_argument('--num_epochs', type=int, default=2000,
                     help='the number of epochs to train')
-parser.add_argument('--lr', type=float, default=0.0001,
+parser.add_argument('--lr', type=float, default=0.01,
                     help='the learning rate')
 parser.add_argument('--batch_size', type=int, default=8,
                     help='the batch size of data loader')

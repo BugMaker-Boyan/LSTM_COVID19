@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import torch
 from dataset.COVID_dataset import COVIDDataset
 from torch.utils.data import DataLoader
@@ -30,28 +31,21 @@ for idx, (x, y) in enumerate(train_data_loader):
     with torch.no_grad():
         y_pre = model(x)
         x_list.append(idx)
-        if args.inverse:
-            y_real_list.append(covid_train_dataset.inverse(y).item())
-            y_pre_list.append(covid_train_dataset.inverse(y_pre).item())
-        else:
-            y_real_list.append(y.item())
-            y_pre_list.append(y_pre.item())
+        y_real_list.append(y.item())
+        y_pre_list.append(y_pre.item())
 
 for idx, (x, y) in enumerate(test_data_loader):
     with torch.no_grad():
         y_pre = model(x)
         x_list.append(idx + len(train_data_loader))
-        if args.inverse:
-            y_real_list.append(covid_train_dataset.inverse(y).item())
-            y_pre_list.append(covid_train_dataset.inverse(y_pre).item())
-        else:
-            y_real_list.append(y.item())
-            y_pre_list.append(y_pre.item())
+        y_real_list.append(y.item())
+        y_pre_list.append(y_pre.item())
+
 
 plt.plot(x_list, y_real_list, label='real', c='red')
 plt.plot(x_list, y_pre_list, label='prediction', c='blue')
 
-plt.vlines(len(train_data_loader), 0, 1, linestyles='dashed')
+plt.vlines(len(train_data_loader), 0, np.ceil(np.max(y_real_list)), linestyles='dashed')
 
 plt.legend()
 
