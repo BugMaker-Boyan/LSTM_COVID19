@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import torch
 from torch.utils.data import Dataset
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 
 
 class COVIDDataset(Dataset):
@@ -21,7 +21,7 @@ class COVIDDataset(Dataset):
         _test_set_size = int(np.round(args.test_size * self.data.shape[0]))
         _train_set_size = self.data.shape[0] - _test_set_size
 
-        self.scaler = StandardScaler()
+        self.scaler = MinMaxScaler(feature_range=(0, 1))
         self.scaler.fit(_data[:_train_set_size + args.seq_len - 2].reshape(-1, 1))
 
         if not test:

@@ -53,10 +53,10 @@ Model output: (batch, output_dim)
 #### Train
 
 ```bash
-python main.py 
---data_name covid19 
---data_path data/covid19.csv 
---target acc_confirm 
+python main.py \
+--data_name covid19 \
+--data_path data/covid19.csv \
+--target acc_confirm \
 --use_gpu
 ```
 

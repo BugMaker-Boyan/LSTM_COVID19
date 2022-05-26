@@ -14,7 +14,7 @@ parser.add_argument('--target', type=str, required=True,
                     help='the target column in data source to train and predict')
 parser.add_argument('--checkpoints', type=str, default='./checkpoints/',
                     help='the model path to save')
-parser.add_argument('--test_size', type=float, default=0.2,
+parser.add_argument('--test_size', type=float, default=0.15,
                     help='the test size between (0, 1) to split the data source')
 parser.add_argument('--log_dir', default='./log/',
                     help='the log dir of tensorboard')
@@ -25,14 +25,14 @@ parser.add_argument('--input_dim', type=int, default=1,
                     help='the input dim of the model')
 parser.add_argument('--hidden_dim', type=int, default=64,
                     help='the hidden dim of the model')
-parser.add_argument('--num_layers', type=int, default=4,
+parser.add_argument('--num_layers', type=int, default=3,
                     help='the number of layers in lstm')
 parser.add_argument('--output_dim', type=int, default=1,
                     help='the output dim of the model')
 
 parser.add_argument('--num_epochs', type=int, default=2000,
                     help='the number of epochs to train')
-parser.add_argument('--lr', type=float, default=0.01,
+parser.add_argument('--lr', type=float, default=0.001,
                     help='the learning rate')
 parser.add_argument('--batch_size', type=int, default=8,
                     help='the batch size of data loader')
